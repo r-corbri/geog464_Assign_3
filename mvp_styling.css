@@ -1,0 +1,132 @@
+/* CSS Styling for GEOG 464 MVP */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-sidebar {
+    background: #ffffffee !important; /* soft white with transparency */
+    backdrop-filter: blur(8px) !important; /* glass effect */
+    box-shadow: 2px 0 15px rgba(0,0,0,0.2) !important;
+    border-right: 1px solid #ccc !important;
+    overflow: hidden;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Tabs (icons on the left edge) */
+.leaflet-sidebar-tabs {
+    background: 'white' !important;
+    padding-top: 10px !important;
+}
+
+.leaflet-sidebar-tabs li a {
+    color: #fff;
+    opacity: 0.6;
+    transition: 0.2s;
+    font-size: 20px;
+    padding: 12px 0;
+}
+
+.leaflet-sidebar-tabs li.active a,
+.leaflet-sidebar-tabs li a:hover {
+    opacity: 1;
+    color: #4dabf7; /* blue highlight */
+}
+
+/* Pane header */
+.leaflet-sidebar-header {
+    background: #4dabf7 !important;
+    color: #fff !important;
+    font-size: 18px !important;
+    padding: 14px !important;
+    border-bottom: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.leaflet-sidebar-header i {
+    cursor: pointer !important;
+    font-size: 20px !important;
+    transition: 0.2s !important;
+}
+
+.leaflet-sidebar-header i:hover {
+    transform: scale(1.2) !important;
+}
+
+/* Panel content */
+.leaflet-sidebar-pane {
+    padding: 15px 18px !important;
+    color: #333 !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+}
+
+/* Divider */
+.leaflet-sidebar-pane h2,
+.leaflet-sidebar-pane h3 {
+    margin-top: 15px !important;
+    padding-bottom: 5px !important;
+    border-bottom: 1px solid #ddd !important;
+}
+
+/* Legend box inside sidebar */
+#legendContent {
+    background: #f8f8f8 !important;
+    border: 1px solid #ddd !important;
+    padding: 10px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 5px rgba(0,0,0,0.08) !important;
+}
+
+/* When closed: show ▶ */
+.leaflet-sidebar.collapsed .leaflet-sidebar-close i {
+    transform: rotate(180deg) !important;
+}
+
+/* When open: show ◀ */
+.leaflet-sidebar:not(.collapsed) .leaflet-sidebar-close i {
+    transform: rotate(0deg) !important;
+}
+
+.leaflet-sidebar-close i {
+    color: white !important;
+}
+
+/* Make sidebar tab icons perfectly centered */
+.leaflet-sidebar .leaflet-sidebar-tabs ul li a {
+  width: 45px !important;        /* slightly larger button */
+  height: 45px !important;
+  line-height: 45px !important;  /* vertically center icon */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+/* Resize the icons so they look clean */
+.leaflet-sidebar .leaflet-sidebar-tabs i {
+  font-size: 20px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* --- Paragrapgh Styling --- */
+p {
+    font-family: "Helvetica", sans-serif;
+    font-size: 16px;
+}
+
+.subHeader {
+    background-color: white;
+    padding: 0px;
+    font-size: 22px;
+    font-weight: 500;
+}
