@@ -154,7 +154,7 @@ fetch("SonomaFL_Fire_Risk_Index_web_4326.tif")     // Forest Lifeforms
         // update layer control
         updateLayerControl();
 
-        // fireRiskIndexLayer.addTo(map);
+        fireRiskIndexLayer.addTo(map);
     })
     .catch(err => console.error("Error loading calculated Fire Risk Index GeoTIFF:", err));
 
