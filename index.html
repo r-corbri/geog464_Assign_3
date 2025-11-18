@@ -1,5 +1,71 @@
-<html>
-    <head>
-        Hello World
-    </head>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sonoma County Fire Map</title>
+
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Leaflet Geocoder CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <!-- Proj4 for CRS support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+
+    <!-- Georaster + Georaster Layer for Leaflet -->
+    <script src="https://unpkg.com/georaster/dist/georaster.browser.min.js"></script>
+    <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
+    
+    <!--Leaflet Sidebar plugin CSS/JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-sidebar-v2/css/leaflet-sidebar.min.css" />
+    <script src="https://unpkg.com/leaflet-sidebar-v2/js/leaflet-sidebar.min.js"></script>
+
+    <!-- Font Awesome pkg -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- CSS for map -->
+    <link rel="stylesheet" href="mvp_styling.css">
+
+
+</head>
+
+<body>
+    <!-- Sidebar -->
+  <div id="sidebar" class="leaflet-sidebar collapsed leaflet-control leaflet-sidebar-left leaflet-touch">
+    <div class="leaflet-sidebar-tabs">
+      <ul role="tablist">
+        <li><a href="#home" role="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#legend" role="tab"><i class="fa fa-info"></i></a></li>
+      </ul>
+    </div>
+
+    <div class="leaflet-sidebar-content">
+      <div class="leaflet-sidebar-pane" id="home">
+        <h1 class="leaflet-sidebar-header", style="font-family: Arial, Helvetica, sans-serif;">
+            Sonoma County Fire Wildland Fire Risk Map
+          <span class="leaflet-sidebar-close"><i class="fa fa-chevron-left"></i></span>
+        </h1>
+        <p>This is a map of a map of the fire risk in risk in Sonoma county. This map is intended to help residents
+            and land owners understand what the severity of fire risk thier property and communites are prone to given
+            the surronding landscape.
+        </p>
+        <p class="subHeader"> How this map is intended to be used
+        </p>
+      </div>
+    </div>
+  </div>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- JavaScript -->
+    <script src="./mvp.js"></script>
+
+</body>
 </html>
