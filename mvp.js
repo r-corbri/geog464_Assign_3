@@ -105,7 +105,7 @@ legend.addTo(map);
     .catch(err => console.error('Error loading LifeForms GeoJSON:', err)); */
 
 // --- Fire Stations ---
-fetch('../mvp_proj_data/Fire_Stations_(HFL).geojson')
+fetch('Fire_Stations_(HFL).geojson')
     .then(res => res.json())
     .then(data => {
         fireStationsLayer = L.geoJSON(data, {
@@ -232,7 +232,7 @@ fetch('../mvp_proj_data/Fire_Stations_(HFL).geojson')
 
  
 // --- Calculated Fire Risk Index Layer ---
-fetch("../mvp_proj_data/SonomaFL_Fire_Risk_Index_web_4326.tif")     // Forest Lifeforms
+fetch("SonomaFL_Fire_Risk_Index_web_4326.tif")     // Forest Lifeforms
 //fetch("../mvp_proj_data/Sonoma_Fire_Risk_Index_web_4326.tif")    // General Lifeforms (kinda looks better)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => parseGeoraster(arrayBuffer))
@@ -314,7 +314,7 @@ fetch("../mvp_proj_data/SonomaFL_Fire_Risk_Index_web_4326.tif")     // Forest Li
 
 
 // --- County Boundary Layer ---
-fetch('../mvp_proj_data/County_Boundary.geojson')
+fetch('County_Boundary.geojson')
     .then(res => res.json())
     .then(data => {
         const countyLayer = L.geoJSON(data, {
@@ -454,7 +454,7 @@ map.on("click", function (e) {
         .openOn(map);
 });
 
-fetch("../mvp_proj_data/SonomaFL_Fire_Risk_Index_web_4326.tif")
+fetch("SonomaFL_Fire_Risk_Index_web_4326.tif")
   .then(r => r.arrayBuffer())
   .then(buf => parseGeoraster(buf))
   .then(georaster => {
