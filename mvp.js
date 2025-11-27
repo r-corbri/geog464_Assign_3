@@ -329,7 +329,7 @@ fetch('County_Boundary.geojson')
     .catch(err => console.error('Error loading county boundary GeoJSON:', err));
 
 // --- Historic Fire Perimeter Boundary Layer ---
-fetch('../mvp_proj_data/GeoProcessing_overflow/Sonoma_Fire_Perimeters.geojson')
+fetch('Sonoma_Fire_Perimeters.geojson')
     .then(res => res.json())
     .then(data => {
         histFirePerimeterLayer = L.geoJSON(data, {
