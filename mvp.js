@@ -30,9 +30,6 @@ L.Control.geocoder({
 
 // Store layers
 let fireStationsLayer = null;
-let lifeFormsLayer = null;
-let slopeLayer = null;
-let lifeFormsRasLayer = null;
 let fireRiskIndexLayer = null;
 let histFirePerimeterLayer = null;
 
@@ -59,50 +56,6 @@ legend.onAdd = function () {
 };
 legend.addTo(map);
 
-// --- LifeForms ---
-// New clipped worked and verticies were simplified -- still needs to be rasterized for calc
-/* fetch('../mvp_proj_data/LifeForms_Subset.geojson')
-    .then(res => res.json())
-    .then(data => {
-        const lifeFormColors = {    // --- Add in remaining lifeform feilds ---
-            "Native Forest": "#fb6a2cff",
-            "Urban Window": "#bdbdbdff", 
-            "Non-native Forest & Woodland": "#ffee00ff",
-            "Vineyard": "#ff9d00ff", 
-            "Vineyard Replant": "#ff9d00ff",
-            "Non-Native Forest": "#fb2c2cff",
-            "Shrub": "#fb6a2cff", 
-            "Non-Native Shrub": "#fb2c2cff", 
-            "Herbaceous": "#7CFC00"
-        };
-
-        lifeFormsLayer = L.geoJSON(data, {      // --- Lifeform polygon symbology: polygon border, pop-ups, and how polygons without classification appear (currently as transparant)
-            pane: 'lifeFormsPane',
-            style: f => ({
-                color: '#706969ff', weight: 1, fillOpacity: 0.2,
-                fillColor: lifeFormColors[f.properties.LIFEFORM] || 'rgba(0,0,0,0)'
-            }),
-            onEachFeature: (f, layer) => {
-                if (f.properties) {
-                    let popup = '<b>Feature Info</b><br>';
-                    for (const key in f.properties) popup += `<b>${key}:</b> ${f.properties[key]}<br>`;
-                    layer.bindPopup(popup);
-                }
-            }
-        });
-
-        // LifeForms legend entry
-        const legendDiv = document.querySelector('.info.legend');
-        legendDiv.innerHTML += '<b>LifeForm Types</b><br>';
-        for (const type in lifeFormColors) {
-            const color = lifeFormColors[type];
-            legendDiv.innerHTML += `<i style="background:${color}; width:18px; height:18px; display:inline-block; margin-right:6px;"></i>${type}<br>`;
-        }
-
-        // lifeform layer control
-        updateLayerControl();
-    })
-    .catch(err => console.error('Error loading LifeForms GeoJSON:', err)); */
 
 // --- Fire Stations ---
 fetch('Fire_Stations_(HFL).geojson')
@@ -128,112 +81,9 @@ fetch('Fire_Stations_(HFL).geojson')
     })
     .catch(err => console.error('Error loading Fire Stations GeoJSON:', err));
 
-
-// --- Slope Layer --- Turning this off cause it's messing with the risk layer.
-/*fetch("../mvp_proj_data/Sonoma_Slope_4326.tif")
-    .then(response => response.arrayBuffer())
-    .then(arrayBuffer => parseGeoraster(arrayBuffer))
-    .then(georaster => {
-
-        const min = georaster.mins[0];
-        const max = georaster.maxs[0];
-
-        // linear interpolation function for slope symbology
-        function interpolateColor(value, min, max, colorLow, colorHigh) {
-            const ratio = (value - min) / (max - min);
-            const r = Math.round(colorLow[0] + ratio * (colorHigh[0] - colorLow[0]));
-            const g = Math.round(colorLow[1] + ratio * (colorHigh[1] - colorLow[1]));
-            const b = Math.round(colorLow[2] + ratio * (colorHigh[2] - colorLow[2]));
-            return `rgb(${r},${g},${b})`;
-        }
-
-        const colorLow = [255, 255, 178]; // low slope = yellow
-        const colorHigh = [189, 0, 38];   // high slope = red
-
-        slopeLayer = new GeoRasterLayer({ 
-            georaster, 
-            pane: 'slopePane', 
-            opacity: 0.7, 
-            pixelValuesToColorFn: value => { 
-                if (value === null) return null; 
-                return interpolateColor(value, min, max, colorLow, colorHigh);
-            }
-        });
-
-        map.fitBounds(slopeLayer.getBounds());
-
-        // Add slope to legend
-        const legendDiv = document.querySelector('.info.legend');
-        if (legendDiv) {
-            legendDiv.innerHTML += '<hr style="margin:6px 0;"><b>Slope (°)</b><br>';
-            legendDiv.innerHTML += `
-                <i style="background:rgb(${colorLow.join(',')}); width:18px; height:18px; display:inline-block; margin-right:6px;"></i> Low<br>
-                <i style="background:rgb(${colorHigh.join(',')}); width:18px; height:18px; display:inline-block; margin-right:6px;"></i> High<br>
-            `;
-        }
-        updateLayerControl();
-    })
-    .catch(err => console.error("Error loading slope GeoTIFF:", err)); */
-
-// --- Rasterized Green Valley Lifeforms (with fire risk for each lifeform type, no slope calc) ---
-/*fetch("../mvp_proj_data/GvLifeform_rasterized.tif")  // path to your fire risk raster
-    .then(response => response.arrayBuffer())
-    .then(arrayBuffer => parseGeoraster(arrayBuffer))
-    .then(georaster => {
-
-        const min = 0; // your fire risk raster values: 0,1,2
-        const max = 2;
-
-        // Define a simple color ramp for 0/1/2 risk
-        const riskColors = [
-            [200, 200, 200], // 0 = low risk, gray
-            [255, 165, 0],   // 1 = moderate risk, orange
-            [255, 0, 0]      // 2 = high risk, red
-        ];
-
-        function interpolateColor(value) {
-            if (value === null) return null;
-            // Since values are discrete 0,1,2, just index into riskColors
-            const idx = Math.round(value);
-            const c = riskColors[idx];
-            return `rgb(${c[0]},${c[1]},${c[2]})`;
-        }
-
-        lifeFormsRasLayer = new GeoRasterLayer({
-            georaster,
-            pane: 'LifeFormsRasPane', 
-            opacity: 0.6,
-            pixelValuesToColorFn: interpolateColor
-        });
-
-
-        // Fit map bounds to the fire risk layer if desired
-        // map.fitBounds(fireRiskLayer.getBounds());
-
-        // Add Life Forms Ras legend
-        const legendDiv = document.querySelector('.info.legend');
-        if (legendDiv) {
-            legendDiv.innerHTML += '<hr style="margin:6px 0;"><b>Fire Risk</b><br>';
-            const labels = ["Low", "Moderate", "High"];
-            for (let i = 0; i <= 2; i++) {
-                const c = riskColors[i];
-                legendDiv.innerHTML += `<i style="background:rgb(${c.join(',')}); width:18px; height:18px; display:inline-block; margin-right:6px;"></i> ${labels[i]}<br>`;
-            }
-        }
-
-        // Optionally add to layer control
-        // if (map.layerControlAdded) {
-        //    map.layerControl.addOverlay(fireRiskLayer, "Fire Risk");
-        //}
-        
-        updateLayerControl();
-    })
-    .catch(err => console.error("Error loading Life Forms Ras GeoTIFF:", err)); */
-
  
 // --- Calculated Fire Risk Index Layer ---
 fetch("SonomaFL_Fire_Risk_Index_web_4326.tif")     // Forest Lifeforms
-//fetch("../mvp_proj_data/Sonoma_Fire_Risk_Index_web_4326.tif")    // General Lifeforms (kinda looks better)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => parseGeoraster(arrayBuffer))
     .then(georaster => {
@@ -375,10 +225,7 @@ function updateLayerControl() {
     if (map.layerControl) map.removeControl(map.layerControl);
 
 const overlayMaps = {};
-    if (lifeFormsLayer) overlayMaps["Life Forms"] = lifeFormsLayer;
     if (fireStationsLayer) overlayMaps["Fire Stations"] = fireStationsLayer;
-    if (slopeLayer) overlayMaps["Slope"] = slopeLayer;
-    if (lifeFormsRasLayer) overlayMaps["Life Forms Ras"] = lifeFormsRasLayer;
     if (fireRiskIndexLayer) overlayMaps["Fire Risk Index"] = fireRiskIndexLayer;
     if (histFirePerimeterLayer) overlayMaps["Historic Fire Perimeters"] = histFirePerimeterLayer;
 
