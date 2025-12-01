@@ -37,10 +37,7 @@ let histFirePerimeterLayer = null;
 proj4.defs("EPSG:4326","+proj=longlat +datum=WGS84 +no_defs");
 
 // --- Create panes. zIndex determines what level the panes are at. ---
-map.createPane('lifeFormsPane'); map.getPane('lifeFormsPane').style.zIndex = 220;
 map.createPane('fireStationsPane'); map.getPane('fireStationsPane').style.zIndex = 500;
-map.createPane('slopePane'); map.getPane('slopePane').style.zIndex = 210;
-map.createPane('LifeFormsRasPane'); map.getPane('LifeFormsRasPane').style.zIndex = 300;
 map.createPane('fireRiskIndexPane'); map.getPane('fireRiskIndexPane').style.zIndex = 400;
 map.createPane('histFirePerimeterPane'); map.getPane('histFirePerimeterPane').style.zIndex = 450;
 
@@ -74,7 +71,6 @@ fetch('Fire_Stations_(HFL).geojson')
 
         // Add Fire Stations legend entry
         const legendDiv = document.querySelector('.info.legend');
-        legendDiv.innerHTML += '<hr style="margin:6px 0;"><b>Fire Stations</b><br>';
         legendDiv.innerHTML += `<i style="background:red; border:1px solid #000; width:14px; height:14px; border-radius:50%; display:inline-block; margin-right:6px;"></i> Fire Station<br>`;
 
         updateLayerControl();
@@ -300,12 +296,3 @@ map.on("click", function (e) {
         .setContent(`<b>Fire Risk:</b> ${riskClass}`)
         .openOn(map);
 });
-
-fetch("SonomaFL_Fire_Risk_Index_web_4326.tif")
-  .then(r => r.arrayBuffer())
-  .then(buf => parseGeoraster(buf))
-  .then(georaster => {
-      const values = georaster.values[0]; // first band
-      const sample = values.slice(0, 10).map(row => row.slice(0, 10));
-  });
-
